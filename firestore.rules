@@ -1,0 +1,52 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Wallet transactions – user can read/write their own
+    match /wallet_transactions/{uid}/transactions/{txid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    
+    match /analytics/{document=**} {
+      allow read: if request.auth.uid == "nSGEbP30pNTy6O0QCUsqPWvAZ1m2";
+    }
+
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // User profile – user can read/write their own
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Service transactions – user can read/write their own transactions
+    match /service_transactions/{uid}/transactions/{transactionId} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Pending transactions – backend only (no client access)
+    match /pending_transactions/{reference} {
+      allow read, write: if false;
+    }
+    
+    match /sending_transactions/{internalRef} {
+  allow read, write: if request.auth != null;
+    }
+    
+    // Provider references – backend only
+    match /provider_refs/{provider}/refs/{ref} {
+      allow read, write: if false;
+    }
+    
+    // REFERRALS
+    match /referrals/{refId} {
+      allow read: if request.auth != null;
+
+      allow create: if request.auth != null;
+
+      // prevent editing or deleting referral history
+      allow update, delete: if false;
+    }
+  }
+}
