@@ -249,7 +249,7 @@ export default function FundWalletPage() {
         <div className="bg-white/10 rounded-xl p-3 flex items-start gap-3 text-xs text-blue-100">
           <Info size={16} className="shrink-0 mt-0.5" />
           <div className="flex-1">
-            <p>Fund your wallet to purchase airtime, data, cable & electricity.</p>
+            <p>Fund your wallet</p>
           </div>
           <div className="text-right text-blue-200 border-l border-white/10 pl-3">
             <p className="font-semibold">Flutterwave Charge</p>

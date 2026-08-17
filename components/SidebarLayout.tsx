@@ -14,7 +14,6 @@ import {
   BarChart3,
   Smartphone,
   Users,
-  Settings,
   LogOut,
   Wallet,
   User as UserIcon,
@@ -36,7 +35,7 @@ const NAV_ITEMS = [
   },
   {
     name: "Transaction History",
-    href: "/history",
+    href: "/TransactionHistory",
     icon: History,
   },
   {
@@ -59,11 +58,7 @@ const NAV_ITEMS = [
     href: "/referrals",
     icon: Users,
   },
-  {
-    name: "Settings",
-    href: "/settings",
-    icon: Settings,
-  },
+ 
 ];
 
 /* ============================================================

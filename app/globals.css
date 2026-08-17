@@ -116,3 +116,9 @@
   color: #0a1c79;
   text-decoration: underline;
 }
+
+/* Hide Next.js dev error overlay badge and toast */
+nextjs-portal,
+[nextjs-portal] {
+  display: none !important;
+}

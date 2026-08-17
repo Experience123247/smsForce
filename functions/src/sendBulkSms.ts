@@ -1076,12 +1076,17 @@ async function claimCampaignAndDeductBalance(
         campaignSnap.data() as CampaignDocument;
 
       /*
-       * ONLY scheduled campaigns can be claimed.
+       * A campaign can reach this helper from TWO paths:
+       *
+       * 1. SEND NOW: approved -> processing
+       * 2. SCHEDULED SEND: scheduled -> processing
+       *
+       * Both paths must use the same atomic wallet claim.
        */
 
       if (
-        campaign.status !==
-        "scheduled"
+        campaign.status !== "approved" &&
+        campaign.status !== "scheduled"
       ) {
         return {
           claimed:
@@ -1154,6 +1159,25 @@ async function claimCampaignAndDeductBalance(
           userSnap.data()
             ?.balance || 0
         );
+
+      logger.info(
+        "SMS wallet check before claim",
+        {
+          campaignId:
+            campaign.reference,
+          uid:
+            campaign.uid,
+          status:
+            campaign.status,
+          balance,
+          required:
+            cost.totalCost,
+          totalUnits:
+            cost.totalUnits,
+          smsPages:
+            cost.smsPages,
+        }
+      );
 
       if (
         balance <

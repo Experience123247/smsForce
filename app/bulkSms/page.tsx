@@ -80,6 +80,17 @@ interface FunctionError {
   };
 }
 
+function isInsufficientBalanceError(
+  error: FunctionError
+): boolean {
+  return (
+    error.message
+      ?.toLowerCase()
+      .includes("insufficient balance") ??
+    false
+  );
+}
+
 /* ============================================================
    HELPERS
 ============================================================ */
@@ -443,14 +454,7 @@ export default function BulkSMSPage() {
         err.code || "";
 
       if (
-        code.includes(
-          "failed-precondition"
-        ) ||
-        err.message
-          ?.toLowerCase()
-          .includes(
-            "insufficient balance"
-          )
+        isInsufficientBalanceError(err)
       ) {
         setErrorType("balance");
       } else if (
@@ -540,14 +544,7 @@ export default function BulkSMSPage() {
         err.code || "";
 
       if (
-        code.includes(
-          "failed-precondition"
-        ) ||
-        err.message
-          ?.toLowerCase()
-          .includes(
-            "insufficient balance"
-          )
+        isInsufficientBalanceError(err)
       ) {
         setErrorType("balance");
       } else if (
@@ -855,7 +852,7 @@ export default function BulkSMSPage() {
                     e.target.value
                   )
                 }
-                placeholder="e.g. August Weekend Promotion"
+                placeholder="e.g.Sales Promotion"
                 maxLength={100}
                 className="w-full p-3.5 border border-gray-300 rounded-xl text-sm text-gray-900 outline-none focus:ring-2 focus:ring-[#0b1575] focus:border-transparent"
               />
